@@ -1,0 +1,5 @@
+* text=auto
+*.nam text eol=crlf
+*.txt text eol=crlf
+*.gitattributes eol=crlf
+*.gitignore eol=crlf

@@ -1,0 +1,130 @@
+  # !/bin/sh
+  #==========================================================
+  # CaMa-Flood sample go script (1) global 6min simulation
+  # -- Multi 10-years simulations (2000 spinup -> 2001 -> 2010)
+  # -- Daily runoff forcing (plain binary) at 6min resolution
+  #
+  # (C) Qingliang Li  (China Changchun/ccsfu)  May 2025
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  #   You may not use this file except in compliance with the License.
+  #   You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software distributed under the License is
+  #  distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and limitations under the License.
+  #==========================================================
+#-----------------------------------------------------------------------------------------------------------------------
+
+
+# # (0) Basic Setting (for workstation)
+  #*** 0a. Set CaMa-Flood base directory
+
+base_dir    :           "../"
+device      :           "cpu"        #cuda
+#-----------------------------------------------------------------------------------------------------------------------
+#================================================
+# (1) Experiment setting
+# -- some non-default options can be modified in NAMELIST section
+
+EXP         :           "test-US_06min/"                               # experiment name (output directory name)
+RDIR        :           "../out/"                                     # directory to run CaMa-Flood
+EXE         :           "MAIN_cmf.py"                                    # Execute file name
+PROG        :           "../src/"                                     # location of Pytorch main program
+NMLIST      :           "input_cmf.nam"                             # standard namelist
+LOGOUT      :           "log_CaMa.txt"                              # standard log output
+#-----------------------------------------------------------------------------------------------------------------------
+#============================
+#*** 1b. Model physics option
+MODTTEST       :          True                                           # .TRUE. for testing time cost  for each module
+DT            :           3600                                           # base DT (modified in physics loop by LADPSTP)
+LADPSTP       :           True                                           # .TRUE. for adaptive time step
+LPTHOUT       :           True                                           # .TRUE. to activate bifurcation flow, mainly for delta simulation
+LDAMOUT       :           False                                           # .TRUE. to activate reservoir operation (under development)
+
+
+#============================
+#*** 1c. simulation time
+YSTA          :           2001                                          # start year ( from YSTA / Jan  1st _ 00:00)
+YEND          :           2010                                          # end   year (until YEND / Dec 31st _ 24:00)
+SPINUP        :           0                                             # [0]: zero-storage start, [1]: from restart file
+NSP           :           1                                             # spinup repeat time
+
+#============================
+#*** 1d. spinup setting
+#* input restart file
+LRESTART      :           ""            # see (3) set each year         # TRUE. to use restart initial condition
+CRESTSTO      :           ""            # see (3) set each year         # input restart FIle
+
+#* output restart file
+CRESTDIR      :           "../"                                         # output restart file directory
+CVNREST       :           "restart"                                 # directory to run CaMa-Flood
+LRESTCDF      :           True                                         # .TRUE. to use netCDF restart file
+IFRQ_RST      :           30                                             # output restat frequency.
+                                                                        # [0]: only at last time, [1,2,3,...,24] hourly restart, [30]: monthly restart
+
+#============================
+#*** 1e. river map & topography
+FMAP          :         "../map/US_0.1/"                                 # map directory
+
+#----- for plain binary map input
+#** basic topography
+LMAPCDF       :           False                                         # .TRUE. for netCDF map
+CNEXTXY       :           "nextxy.bin"                                  # downstream xy (river network map)
+CGRAREA       :           "ctmare.bin"                                  # unit-catchment area   [m2]
+CELEVTN       :           "elevtn.bin"                                  # channel top elevation [m]
+CNXTDST       :           "nxtdst.bin"                                  # downstream distance   [m]
+CRIVLEN       :           "rivlen.bin"                                  # channel length        [m]
+CFLDHGT       :           "fldhgt.bin"                                  # floodplain elevation profile (height above 'elevtn') [m]
+
+#** channel parameter
+###CRIVWTH=${FMAP}/rivwth.bin"
+CRIVWTH       :           "rivwth_gwdlr.bin"                            # channel width [m] (GWD-LR + filled with empirical)
+CRIVHGT       :           "rivhgt.bin"                                  # channel depth [m] (empirical power-low)
+CRIVMAN       :           "rivman.bin"                                  # manning coefficient river (The one in flood plain is a global parameter; set $PMANFLD below.)
+
+#** bifurcation channel info
+CPTHOUT       :           "bifprm.txt"                                  # bifurcation channel list
+
+#============================
+#*** 1f. forcing setting
+CDIMINFO      :           "diminfo_US.txt"                              # dimention information file
+CINPMAT       :           "inpmat_US.bin"                        # runoff input matrix for interporlation
+
+IFRQ_INP      :           24                                                # input forcing frequency: [1,2,3,...,24] hour
+DROFUNIT      :           86400000                 # [mm/day->m/s]          # runoff unit conversion
+
+#----- for plain binary runoff forcing
+LINPCDF       :           True                                           # true for netCDF runoff
+LINTERP       :           True                                           # .TRUE. to interporlate with input matrix
+CROFDIR       :           "../inp/JRA55_US_06min/"                       # runoff directory
+CROFPRE       :           "JRA55-0.1_"                                   # runoff prefix
+CROFSUF       :           ".nc4"                                         # runoff suffix
+
+#CROFCDF=""       # see (3) set each year       # netCDF runoff file
+CROFCDF       :           ""
+CVNROF        :           "f_rnof"                                       # netCDF runoff    variable name
+
+#----- for netCDF runoff forcing ###
+# Example available in test2 script
+
+#============================
+#*** 1h. Output Settings
+IFRQ_OUT      :           720                                             # output frequency: [1,2,3,...,24] hour
+
+LOUTCDF       :           True                                           # .TRUE. netCDF output, .FALSE. plain binary output
+COUTDIR       :           "../out/"                                          # output directory
+
+CVARSOUT      :           "outflw,storge,fldfrc,maxdph,flddph"
+#CVARSOUT      :           "rivout,rivsto,rivdph,rivvel,fldout,fldsto,flddph,fldfrc,fldare,sfcelv,outflw,storge,pthflw,pthout,maxsto,maxflw,maxdph"
+                                                                         # list output variable (comma separated)
+
+COUTTAG       :           ""             # see (3) set each year         #   output tag $(COUTDIR)/$(VARNAME)$(OUTTAG).bin
+
+##### Model Parameters ################
+PMANRIV       :           0.03                                           #   manning coefficient river
+PMANFLD       :           0.10                                           #   manning coefficient floodplain
+PCADP         :           0.7                                            #   satety coefficient for CFL condition
+PDSTMTH       :           10000.0                                        #   downstream distance at river mouth [m]
+
+

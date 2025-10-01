@@ -1,0 +1,5 @@
+*.nc4
+*.xml
+*.iml
+/map/*
+/inp/*

@@ -1,0 +1,164 @@
+
+!--------------------
+CMF::CONFIG_NMLIST: namelist opened:       ../out/test-US_06min/input_cmf.nam
+
+=== NAMELIST, NRUNVER ===
+Cost for each module:                      True
+device                                     cpu
+LADPSTP                                    True
+LFPLAIN                                    True
+LKINE                                      False
+LFLDOUT                                    True
+LPTHOUT                                    True
+LDAMOUT                                    False
+LLEVEE                                     False
+LSEDOUT                                    False
+LTRACE                                     False
+LOUTINS                                    False
+
+LROSPLIT                                   False
+LWEVAP                                     False
+LWEVAPFIX                                  False
+LWEXTRACTRIV                               False
+LGDWDLY                                    False
+LSLPMIX                                    False
+LSLOPEMOUTH                                False
+
+LMEANSL:                                   False
+LSEALEV:                                   False
+
+LRESTART                                   False
+LSTOONLY                                   False
+LOUTPUT                                    True
+LOUTINI                                    False
+
+LGRIDMAP                                   True
+LLEAPYR                                    True
+LMAPEND                                    False
+LBITSAFE                                   False
+LSTG_ES                                    False
+
+=== NAMELIST, NCONF ===
+CDIMINFO                                   ../map/US_0.1/diminfo_US.txt
+DT                                         3600
+DTIN                                       86400
+IFRQ_INP                                   24
+
+CMF::CONFIG_NMLIST: read DIMINFO       ../map/US_0.1/diminfo_US.txt
+
+=== DIMINFO ===
+NX,NY,NLFP                                 590,  320,  10
+NXIN,NYIN,INPN                             590,    320,    14
+WEST,EAST,NORTH,SOUTH                  -125.0,    -66.0,    54.0,   22.0
+
+=== NAMELIST, NPARAM ===
+PMANRIV                                    0.03
+PMANFLD                                    0.1
+PGRV                                       9.8
+PDSTMTH                                    10000.0
+PCADP                                      0.7
+PMINSLP                                    1e-05
+
+IMIS                                       -9999
+RMIS                                       1e+20
+DMIS                                       1.0000000200408773e+20
+
+CSUFBIN                                    .bin
+CSUFVEC                                    .vec
+CSUFPTH                                    .pth
+CSUFCDF                                    .nc
+CMF::CONFIG_NMLIST: end 
+--------------------!
+
+!---------------------!
+CMF::TIME_NMLIST: namelist OPEN in unit: ../out/test-US_06min/input_cmf.nam
+=== NAMELIST, NSIMTIME ===
+SYEAR, SMON, SDAY, SHOUR:              2001 1 1 0
+EYEAR, EMON, EDAY, EHOUR:              2002 1 1 0
+TIME_NMLIST: YYYY0 MM0 DD0 set to:     2001 1 1
+CMF::TIME_NMLIST: end:
+!---------------------!
+CMF::FORCING_NMLIST: namelist OPEN in unit:   ../out/test-US_06min/input_cmf.nam
+=== NAMELIST, NFORCE ===
+LINPCDF                True
+LINPDAY                False
+LINTERP                True
+LITRPCDF               False
+CINPMAT                ../map/US_0.1/inpmat_US.bin
+LROSPLIT               False
+CROFCDF                ../inp/JRA55_US_06min/JRA55-0.1_2001.nc4
+SYEARIN, SMONIN, SDAYIN, SHOURIN:          (2001, 1, 1, 0)
+CVNTIME                    time
+CVNROF                     f_rnof
+CMF::FORCING_NMLIST: end
+
+!---------------------!
+CMF::RESTART_NMLIST: namelist OPEN in unit:    ../out/test-US_06min/input_cmf.nam
+=== NAMELIST, NRESTART  ===
+CRESTSTO:              ""
+CRESTDIR:              ../
+CVNREST:               restart
+LRESTCDF:              True
+LRESTDBL:              True
+IFRQ_RST:              30
+
+!---------------------!
+CMF::OUTPUT_NMLIST: namelist OPEN in unit: ../out/test-US_06min/input_cmf.nam
+=== NAMELIST, NOUTPUT  ===
+COUTDIR:       ../out/test-US_06min/
+CVARSOUT:      "outflw,storge,fldfrc,maxdph,flddph"
+COUTTAG:       2001
+LOUTCDF:       True
+NDLEVEL:       0
+IFRQ_OUT:      24
+LOUTTXT:       False
+CGAUTXT:       None
+CMF::OUTPUT_NMLIST: end
+CMF::DRV_INPUT: end reading namelist
+CMF::CONFIG_CHECK: check setting conflicts
+CMF::DRV_INPUT: finished
+******************************!
+
+
+******************************!
+CMF::DRV_INIT: initialization start
+CMF::DRV_INIT: (1) Set Time
+
+!******************************!
+CMF::DRV_INIT: initialization start
+Base Year YYYY0:   2001
+Start Date:        (tensor(20010101, dtype=torch.int32), tensor(0, dtype=torch.int32), tensor(0, dtype=torch.int32))
+End   Date:        (tensor(20020101, dtype=torch.int32), tensor(0, dtype=torch.int32), tensor(525600, dtype=torch.int32))
+NSTEPS:        8760
+Initial Time Step Date:Hour : 20010101  _  0 : 0
+CMF::TIME_INIT: end
+CMF::DRV_INIT: (3) Set output & forcing modules
+
+!---------------------!
+
+!---------------------!
+ CMF::OUTPUT_INIT: check output variables
+seconds since 2001-01-01 00:00
+Creating output for variable: "outflw
+CFILE: ../out/test-US_06min/ o_outflw2001.nc,   CVAR: outflw,    CLNAME: discharge (river+floodplain),     CUNITS: m3/s
+Creating output for variable: storge
+CFILE: ../out/test-US_06min/ o_storge2001.nc,   CVAR: storge,    CLNAME: total storage (river+floodplain),     CUNITS: m3
+Creating output for variable: fldfrc
+CFILE: ../out/test-US_06min/ o_fldfrc2001.nc,   CVAR: fldfrc,    CLNAME: flooded fraction,     CUNITS: 0-1
+Creating output for variable: maxdph
+CFILE: ../out/test-US_06min/ o_maxdph2001.nc,   CVAR: maxdph,    CLNAME: daily maximum river depth,     CUNITS: m
+Creating output for variable: flddph"
+CFILE: ../out/test-US_06min/ o_flddph2001.nc,   CVAR: flddph,    CLNAME: floodplain depth,     CUNITS: m
+
+!---------------------!
+CMF::FORCING_INIT: Initialize runoff forcing file (only for netCDF)
+CMF::FORCING_INIT_CDF: ../inp/JRA55_US_06min/JRA55-0.1_2001.nc4, 0
+CMF::FORCING_INIT_CDF: CNAME, NCID, VARID = ../inp/JRA55_US_06min/JRA55-0.1_2001.nc4, 'not set NCID and in pytorch' 
+NX, NY, INPN =      590   320   14
+INPUT MATRIX binary  ../map/US_0.1/inpmat_US.bin
+CMF::FORCING_INIT: end
+CMF::DRV_INIT: (4) Allocate prog & diag vars & initialize
+
+******************************!
+CMF::PROG_INIT: prognostic variable initialization
+PROG_INIT: fill channels below downstream boundary

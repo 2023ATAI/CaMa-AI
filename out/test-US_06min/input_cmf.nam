@@ -1,0 +1,72 @@
+/ 
+    &NRUNVER
+    LADPSTP  = True                  ! true: use adaptive time step
+    LPTHOUT  = True                  ! true: activate bifurcation scheme
+    LDAMOUT  = False                  ! true: activate dam operation (under development)
+    LRESTART = False                 ! true: initial condition from restart file
+    /
+    &NDIMTIME
+    CDIMINFO = "../map/US_0.1/diminfo_US.txt"               ! text file for dimention information
+    DT       = 3600                       ! time step length (sec)
+    IFRQ_INP = 24                 ! input forcing update frequency (hour)
+    /
+    &NPARAM
+    PMANRIV  = 0.03                  ! manning coefficient river
+    PMANFLD  = 0.1                  ! manning coefficient floodplain
+    PDSTMTH  = 10000.0                  ! downstream distance at river mouth [m]
+    PCADP    = 0.7                    ! CFL coefficient
+    /
+    / 
+    &NSIMTIME
+    SYEAR   = 2001                      ! start year
+    SMON    = 1                      !  month 
+    SDAY    = 1                      !  day 
+    SHOUR   = 0                                    !  houe
+    EYEAR   = 2002                      ! end year
+    EMON    = 1                      !  month 
+    EDAY    = 1                      !  day 
+    EHOUR   = 0                                      !  hour
+    /
+    / 
+    &NMAP
+    LMAPCDF    =  False                ! * true for netCDF map input
+    CNEXTXY    = "../map/US_0.1/nextxy.bin"              ! river network nextxy
+    CGRAREA    = "../map/US_0.1/ctmare.bin"              ! catchment area
+    CELEVTN    = "../map/US_0.1/elevtn.bin"              ! bank top elevation
+    CNXTDST    = "../map/US_0.1/nxtdst.bin"              ! distance to next outlet
+    CRIVLEN    = "../map/US_0.1/rivlen.bin"              ! river channel length
+    CFLDHGT    = "../map/US_0.1/fldhgt.bin"              ! floodplain elevation profile
+    CRIVWTH    = "../map/US_0.1/rivwth_gwdlr.bin"              ! channel width
+    CRIVHGT    = "../map/US_0.1/rivhgt.bin"              ! channel depth
+    CRIVMAN    = "../map/US_0.1/rivman.bin"              ! river manning coefficient
+    CPTHOUT    = "../map/US_0.1/bifprm.txt"              ! bifurcation channel table
+    /
+    / 
+    &NRESTART
+    CRESTSTO = ""               ! restart file
+    CRESTDIR = "../"               ! restart directory
+    CVNREST  = "restart"                ! restart variable name
+    LRESTCDF = True                 ! * true for netCDF restart file (double precision)
+    IFRQ_RST = 30                 ! restart write frequency (1-24: hour, 0:end of run)
+    /
+    /
+    &NFORCE
+    LINPCDF  = True                  ! true for netCDF runoff
+    LINTERP  = True                  ! true for runoff interpolation using input matrix
+    CINPMAT  = "../map/US_0.1/inpmat_US.bin"                ! input matrix file name
+    DROFUNIT = 86400000                 ! runoff unit conversion
+    CROFDIR  = "../inp/JRA55_US_06min/"                ! runoff             input directory
+    CROFPRE  = "JRA55-0.1_"                ! runoff             input prefix
+    CROFSUF  = ".nc4"                ! runoff             input suffix
+    /
+    /
+    &NOUTPUT
+    COUTDIR  = "../out/test-US_06min/"                ! OUTPUT DIRECTORY
+    CVARSOUT = "outflw,storge,fldfrc,maxdph,flddph"               ! Comma-separated list of output variables to save 
+    COUTTAG  = "2001"                ! Output Tag Name for each experiment
+    LOUTVEC  = .FALSE                              ! TRUE FOR VECTORIAL OUTPUT, FALSE FOR NX,NY OUTPUT
+    LOUTCDF  = True                  ! * true for netcdf outptu false for binary
+    NDLEVEL  = 0                                   ! * NETCDF DEFLATION LEVEL 
+    IFRQ_OUT = 720                 ! output data write frequency (hour)
+    /
+    

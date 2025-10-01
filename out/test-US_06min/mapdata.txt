@@ -1,0 +1,5 @@
+NX    590
+NY    320
+NLFP  10
+REGIONALL     1
+NSEQMAX       133188

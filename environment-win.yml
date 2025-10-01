@@ -1,0 +1,50 @@
+name: CaMa-pytorch-windows
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+  - https://repo.anaconda.com/pkgs/msys2
+dependencies:
+  - bzip2=1.0.8=h2bbff1b_6
+  - ca-certificates=2025.2.25=haa95532_0
+  - libffi=3.4.4=hd77b12b_1
+  - openssl=3.0.16=h3f729d1_0
+  - pip=25.0=py311haa95532_0
+  - python=3.11.11=h4607a30_0
+  - pyyaml=6.0.2=py311h827c3e9_0
+  - sqlite=3.45.3=h2bbff1b_0
+  - tk=8.6.14=h0416ee5_0
+  - types-pyyaml=6.0.12.12=py311haa95532_0
+  - vc=14.42=haa95532_4
+  - vs2015_runtime=14.42.34433=he0abc0d_4
+  - wheel=0.45.1=py311haa95532_0
+  - xz=5.6.4=h475444_1
+  - yaml=0.2.5=he774522_0
+  - zlib=1.2.13=h8cc25b3_1
+  - pip:
+      - certifi==2025.4.26
+      - cftime==1.6.4.post1
+      - filelock==3.13.1
+      - fsspec==2024.6.1
+      - jinja2==3.1.4
+      - markupsafe==2.1.5
+      - meson==1.7.2
+      - mpmath==1.3.0
+      - netcdf4==1.7.2
+      - networkx==3.3
+      - ninja==1.11.1.4
+      - numpy==2.2.5
+      - packaging==25.0
+      - pandas==2.2.3
+      - pillow==11.0.0
+      - python-dateutil==2.9.0.post0
+      - pytz==2025.2
+      - setuptools==59.5.0
+      - six==1.17.0
+      - sympy==1.13.1
+      - torch==2.6.0+cu118
+      - torchaudio==2.6.0+cu118
+      - torchvision==0.21.0+cu118
+      - typing-extensions==4.12.2
+      - tzdata==2025.2
+      - xarray==2025.4.0
+prefix: C:\Users\liqin\.conda\envs\cama
