@@ -8,7 +8,7 @@ from scipy.spatial import cKDTree
 # ---------------------
 # 路径配置
 # ---------------------
-nc_folder = 'D:\code\Cama-AI\inp\JRA55_US_06min'         # 模拟结果的 NetCDF 文件夹
+nc_folder = 'E:\LZH_py_fortran_comprision\python'         # 模拟结果的 NetCDF 文件夹
 excel_path = 'D:\camels\cattributes_other_camels.csv'      # 包含站点观测数据的 Excel 文件
 
 # ---------------------

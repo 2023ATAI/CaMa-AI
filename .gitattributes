@@ -3,3 +3,4 @@
 *.txt text eol=crlf
 *.gitattributes eol=crlf
 *.gitignore eol=crlf
+*.py eol=crlf

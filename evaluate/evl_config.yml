@@ -1,0 +1,18 @@
+
+#-----------------------------------------------------------------------------------------------------------------------
+STARTYEAR          :           2005
+ENDYEAR          :           2010
+SPATIALRESOLUTION : 0.1  # 0.0167 , 0.05 , 0.1 , 0.25
+TIMESCALE : Day  # Day , Month
+REFDIR : 'D:\LZH_CaMa\data\REF\'
+SIMDIR : ['D:\LZH_CaMa\data\SIM\Fortran\','D:\LZH_CaMa\data\SIM\Pytorch\']
+
+MAX_LAT : 54
+MIN_LAT : 22
+MAX_LON : -66
+MIN_LON : -125
+Variables : ['Discharge',
+             'maximum flood deepth',
+             'flooded area',
+             'river network',
+             'water level']
