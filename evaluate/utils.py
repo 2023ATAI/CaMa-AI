@@ -76,17 +76,16 @@ def KGESS(y_true, y_pred):
 
 def GetMAE(y_true,y_pred):
     """
-    计算平均绝对误差（MAE）
+    Calculate the Mean Absolute Error (MAE).
 
-    参数：
-    y_true: 实际观测值的列表或数组
-    y_pred: 模型预测值的列表或数组
+    Parameters:
+        y_true (list or array): Actual observed values (ground truth / true targets)
+        y_pred (list or array): Predicted values from the model
 
-    返回：
-    mae: 平均绝对误差
+    Returns:
+        float: Mean Absolute Error (MAE)
     """
     n = len(y_true)
-  # 数据点的数量
     mae = sum(abs(y_true[i] - y_pred[i]) for i in range(n)) / n
     return mae
 
@@ -107,14 +106,12 @@ def GetNSE(observed,simulated):
     return nse
 
 def GetP(y_test,y_pred):
-    # 假设 baseline_pred 是基线模型的预测值
-    baseline_pred = [y_test.mean()] * len(y_test)  # 基线模型预测值为 y_test 的均值
+    # Assume that baseline_pred is the prediction from the baseline model
+    baseline_pred = [y_test.mean()] * len(y_test)  # The baseline model predicts the mean value of y_test
 
-    # 计算两个模型的误差
     errors_model = y_test - y_pred
     errors_baseline = y_test - baseline_pred
 
-    # 进行配对 t 检验
     t_statistic, p_value = ttest_rel(errors_model, errors_baseline)
 
     return p_value
