@@ -246,20 +246,17 @@ def plot_spatial_map(stn_lon, stn_lat, metric, indicator, fig_dir, selected_sim,
 
     fig = plt.figure(figsize=(12, 8))
 
-    # 设置 Basemap
     M = Basemap(projection='cyl', llcrnrlat=min_lat, urcrnrlat=max_lat,
                 llcrnrlon=min_lon, urcrnrlon=max_lon, resolution='l')
     M.drawmapboundary(fill_color='white', zorder=-1)
     M.fillcontinents(color='0.8', lake_color='white', zorder=0)
     M.drawcoastlines(color='#BEBEBE', linewidth=0.1)
 
-    # 添加经纬度网格
     parallels = np.arange(int(min_lat), int(max_lat) + 1, 5)
     meridians = np.arange(int(min_lon), int(max_lon) + 1, 10)
     M.drawparallels(parallels, labels=[1, 0, 0, 1], fontsize=20, linewidth=0.2)
     M.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=20, linewidth=0.2)
 
-    # 设置不同指标的取值范围
     if indicator.upper() == 'KGESS':
         vmin, vmax = -1, 1
     elif indicator.upper() == 'CORRELATION':
@@ -272,88 +269,34 @@ def plot_spatial_map(stn_lon, stn_lat, metric, indicator, fig_dir, selected_sim,
         vmin, vmax = (np.min(metric) if len(metric) > 0 else -1,
                       np.max(metric) if len(metric) > 0 else 1)
 
-    # 设置 colormap 对应关系
     cmap_dict = {
         'KGESS': 'coolwarm',
         'CORRELATION': 'RdPu',
         'RMSE': 'inferno',
         'BIAS': 'PRGn'
     }
-    # 默认 colormap
+
     cmap = cmap_dict.get(indicator.upper(), 'inferno')
 
-    # 绘制散点图
+
     loc_lon, loc_lat = M(stn_lon, stn_lat)
     sc = M.scatter(loc_lon, loc_lat, c=metric, s=150,
                    cmap=cmap, vmin=vmin, vmax=vmax,
                    marker='.', edgecolors='none', alpha=0.9)
 
-    # 颜色条
+
     cbar = M.colorbar(sc, location='bottom', pad='12%')
     cbar.set_label(indicator, fontsize=25)
     cbar.ax.tick_params(labelsize=18)
 
     plt.title(f'Spatial Map of {indicator} for {selected_sim}', fontsize=25, pad=15)
 
-    # 保存图像
+
     os.makedirs(fig_dir, exist_ok=True)
     fig_path = os.path.join(fig_dir, f'spatial_{selected_sim}_{indicator}.png')
     plt.savefig(fig_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f'Spatial map saved: {fig_path}')
-
-# def plot_spatial_map(stn_lon, stn_lat, metric, indicator, fig_dir, selected_sim, min_lon=-125.0, max_lon=-66.0,
-#                      min_lat=22.0, max_lat=54.0):
-#     font = {'family': 'Times New Roman'}
-#     matplotlib.rc('font', **font)
-#
-#     fig = plt.figure(figsize=(12, 8))
-#
-#     # 设置 Basemap
-#     M = Basemap(projection='cyl', llcrnrlat=min_lat, urcrnrlat=max_lat,
-#                 llcrnrlon=min_lon, urcrnrlon=max_lon, resolution='l')
-#     M.drawmapboundary(fill_color='white', zorder=-1)
-#     # M.fillcontinents(color='#D3D3D3', lake_color='white', zorder=0)
-#     M.fillcontinents(color='0.8', lake_color='white', zorder=0)
-#     M.drawcoastlines(color='#BEBEBE', linewidth=0.1)
-#
-#     # 添加经纬度网格
-#     parallels = np.arange(int(min_lat), int(max_lat) + 1, 5)
-#     meridians = np.arange(int(min_lon), int(max_lon) + 1, 10)
-#     M.drawparallels(parallels, labels=[1, 0, 0, 1], fontsize=20, linewidth=0.2)
-#     M.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=20, linewidth=0.2)
-#
-#     if indicator.upper() == 'KGESS':
-#         vmin, vmax = -1, 1
-#     elif indicator.upper() == 'CORRELATION':
-#         vmin, vmax = -1, 1
-#     elif indicator.upper() == 'RMSE':
-#         vmin, vmax = 0, max(100, np.max(metric) if len(metric) > 0 else 100)
-#     elif indicator.upper() == 'BIAS':
-#         vmin, vmax = -100, 100
-#     else:
-#         vmin, vmax = np.min(metric) if len(metric) > 0 else -1, np.max(metric) if len(metric) > 0 else 1
-#
-#     # 绘制散点图
-#     loc_lon, loc_lat = M(stn_lon, stn_lat)
-#     sc = M.scatter(loc_lon, loc_lat, c=metric, s=150,cmap='inferno', vmin=vmin, vmax=vmax,
-#                    marker='.', edgecolors='none', alpha=0.9)
-#
-#     cbar = M.colorbar(sc, location='bottom', pad='12%')
-#     cbar.set_label(indicator, fontsize=25)
-#     cbar.ax.tick_params(labelsize=18)
-#
-#     plt.title(f'Spatial Map of {indicator} for {selected_sim}', fontsize=25, pad=15)
-#
-#     # 保存图像
-#     os.makedirs(fig_dir, exist_ok=True)
-#     fig_path = os.path.join(fig_dir, f'spatial_{selected_sim}_{indicator}.png')
-#     plt.savefig(fig_path, dpi=300,bbox_inches="tight")
-#     plt.close()
-#     print(f'Spatial map saved: {fig_path}')
-#
-
-
 
 #----------------------------------------------maximum flood deepth timeseries-----------------------------
 def plot_flood_depth_timeseries(SIMDIR,sim_dirs, fig_dir, case_plot, OUTPUTFOLDER, STARTYEAR, ENDYEAR):
@@ -379,7 +322,7 @@ def plot_flood_depth_timeseries(SIMDIR,sim_dirs, fig_dir, case_plot, OUTPUTFOLDE
         ds = xr.open_mfdataset(files, combine="by_coords")
         da = ds["maxdph"]
 
-        # 取每一天的空间平均最大洪水深度
+
         mean_series = da.mean(dim=["lat", "lon"], skipna=True).to_pandas()
 
         data[target] = mean_series.values
@@ -459,8 +402,7 @@ def plot_flooded_area_timeseries(SIMDIR,sim_dirs, fig_dir, case_plot, OUTPUTFOLD
         ds = xr.open_mfdataset(files, combine="by_coords")
         da = ds["fldare"]
 
-        # 取每一天的空间总和flooded area（总淹没面积）
-        sum_series = da.sum(dim=["lat", "lon"], skipna=True).to_pandas()  # 使用sum作为总面积；如果要平均，用mean()
+        sum_series = da.sum(dim=["lat", "lon"], skipna=True).to_pandas()  
 
         data[target] = sum_series.values
         time_index = sum_series.index
@@ -528,18 +470,18 @@ def plot_river_network_spatial(SIMDIR,STARTYEAR,ENDYEAR,sim_full_dir, fig_dir, s
         f = [f'{SIMDIR}o_pthflw{year}.nc' for year in years]
         if os.path.exists(f):
             files.append(f)
-            break  # 只取第一个文件作为静态河网
+            break 
 
     if not files:
         raise FileNotFoundError(f"No pthout files found in {sim_full_dir}")
 
-    ds = xr.open_dataset(files[0])  # 只打开一个文件
+    ds = xr.open_dataset(files[0])  
     da = ds["pthout"]
 
-    # 取第一个时间步作为静态图
+
     da_plot = da.isel(time=0) if "time" in da.dims else da
 
-    # 经纬度
+
     lat_name = "lat" if "lat" in da.dims else "y"
     lon_name = "lon" if "lon" in da.dims else "x"
     lats, lons = ds[lat_name].values, ds[lon_name].values
@@ -550,7 +492,7 @@ def plot_river_network_spatial(SIMDIR,STARTYEAR,ENDYEAR,sim_full_dir, fig_dir, s
 
     field = da_plot.values
 
-    # 绘图
+
     fig = plt.figure(figsize=(12, 8))
     M = Basemap(projection="cyl",
                 llcrnrlat=min_lat, urcrnrlat=max_lat,
@@ -589,10 +531,9 @@ def plot_water_level_spatial(SIMDIR,STARTYEAR,ENDYEAR,sim_full_dir, fig_dir, sta
     ds = xr.open_mfdataset(files, combine="by_coords")
     da = ds["sfcelv"]
 
-    # 时间平均空间分布
     da_plot = da.mean(dim="time", skipna=True)
 
-    # 经纬度
+
     lat_name = "lat" if "lat" in da.dims else "y"
     lon_name = "lon" if "lon" in da.dims else "x"
     lats, lons = ds[lat_name].values, ds[lon_name].values
@@ -603,7 +544,6 @@ def plot_water_level_spatial(SIMDIR,STARTYEAR,ENDYEAR,sim_full_dir, fig_dir, sta
 
     field = da_plot.values
 
-    # 绘图
     fig = plt.figure(figsize=(14, 10))
     M = Basemap(projection="cyl",
                 llcrnrlat=min_lat, urcrnrlat=max_lat,
