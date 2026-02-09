@@ -11,13 +11,13 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from partd.file import filename
 
 from process_simulations import process_simulations, plot_timeseries, plot_spatial_map, plot_river_network_spatial, plot_water_level_spatial, \
-    plot_flooded_area_timeseries, plot_flood_depth_timeseries  # 显式导入
+    plot_flooded_area_timeseries, plot_flood_depth_timeseries 
 
 class DataProcessingThread(QThread):
     finished = pyqtSignal()
 
     def run(self):
-        time.sleep(5)  # 模拟处理时间，可替换为实际处理逻辑
+        time.sleep(5)  
         self.finished.emit()
 
 class EvalApp(QWidget):
@@ -301,16 +301,9 @@ class EvalApp(QWidget):
 
 
             self.var_combo.currentTextChanged.connect(self.on_combobox_changed)
-            # process_simulations(config, self.standard_folder, self.choosen_var)  # 实际调用预处理
-
-            # if self.var_combo:
-            #     for i in range(self.var_combo.count()):
-            #         item_text = self.var_combo.item(i).text()
-            #         if item_text in ['Discharge', 'maximum flood deepth', 'flooded area', 'river network', 'water level']:
-            #             self.var_combo.item(i).setSelected(True)
-            # print(self.var_combo.selectedItems())
+            
     def on_combobox_changed(self, text):
-        print("当前选中：", text)  # 控制台打印出选中的值
+        print("Currently selected：", text)  
         self.choosen_var=text
         print(' self.choosen_var', self.choosen_var)
 
@@ -333,7 +326,7 @@ class EvalApp(QWidget):
             with open(self.model_files[0], 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
             choosen_var='flood'
-            process_simulations(config, self.standard_folder,choosen_var)  # 实际调用预处理
+            process_simulations(config, self.standard_folder,choosen_var)  
             self.on_preprocessing_finished()
         except Exception as e:
             QMessageBox.warning(self, "Error", f"Preprocessing failed: {str(e)}")
@@ -363,10 +356,9 @@ class EvalApp(QWidget):
 
     def update_options(self, var):
         if var in self.variables:
-            # 特殊情况：river network 和 water level 只能画空间图
             if var in ["river network", "water level"]:
                 self.plot_type_combo.setCurrentText("Spatial Map")
-                self.plot_type_combo.setEnabled(False)  # 禁用切换
+                self.plot_type_combo.setEnabled(False)  
             else:
                 self.plot_type_combo.setEnabled(True)
 
@@ -420,7 +412,6 @@ class EvalApp(QWidget):
             self.indicator_label.hide()
             self.indicator_combo.hide()
 
-            # station 只对 Discharge 有效，其余变量隐藏
             if variable == "Discharge":
                 stations = self.load_station_data()
                 self.station_label.setText("Select Station:")
@@ -442,7 +433,7 @@ class EvalApp(QWidget):
             self.sim_data_list.hide()
             self.sim_data_combo.show()
 
-            # 只有 Discharge 才显示指标选择
+
             if variable == "Discharge":
                 self.indicator_label.setText("Select Indicator:")
                 self.indicator_combo.addItems(["RMSE", "KGESS", "BIAS", "CORRELATION"])
@@ -468,14 +459,13 @@ class EvalApp(QWidget):
 
         variable = self.var_combo.currentText()
 
-        # 时序图
+
         if self.current_plot_type == "Time Series":
             selected_sims = [item.text() for item in self.sim_data_list.selectedItems()]
             if not selected_sims or selected_sims == ["No Model Data"]:
                 QMessageBox.warning(self, "Warning", "Please select at least one simulation dataset.")
                 return
 
-            # ---- Discharge ----
             if variable == "Discharge":
                 case_plot = 'value' if self.sub_option_combo.currentText() == "Numerical Comparison" else 'residual'
                 station_id = self.station_combo.currentText()
@@ -558,7 +548,7 @@ class EvalApp(QWidget):
                     QMessageBox.warning(self, "Error", f"Failed to generate variable time series: {str(e)}")
                     self.result_label.setText("Failed to generate variable time series")
 
-        # 空间图
+
         elif self.current_plot_type == "Spatial Map":
             selected_sim = self.sim_data_combo.currentText()
             indicator = self.indicator_combo.currentText() if variable == "Discharge" else None
