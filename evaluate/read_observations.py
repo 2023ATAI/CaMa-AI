@@ -5,8 +5,8 @@ import numpy as np
 from scipy.spatial import cKDTree
 
 
-nc_folder = 'E:\LZH_py_fortran_comprision\python'      
-excel_path = 'D:\camels\cattributes_other_camels.csv'   
+nc_folder = './'      
+excel_path = './'   
 
 nc_files = [os.path.join(nc_folder, f) for f in os.listdir(nc_folder) if f.endswith('.nc4')]
 df_station = pd.read_excel(excel_path)
