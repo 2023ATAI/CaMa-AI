@@ -7,7 +7,6 @@ from scipy.spatial import cKDTree
 
 nc_folder = './'      
 excel_path = './'   
-
 nc_files = [os.path.join(nc_folder, f) for f in os.listdir(nc_folder) if f.endswith('.nc4')]
 df_station = pd.read_excel(excel_path)
 station_coords = df_station[['gauge_lon', 'gauge_lat']].values
