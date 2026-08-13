@@ -1,1 +1,1 @@
-# CaMa-PyTorch v1.0
+# CaMa-AI
