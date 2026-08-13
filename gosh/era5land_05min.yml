@@ -1,6 +1,6 @@
 base_dir    :           "../"
-device : "cuda"
-EXP : "exp_name"
+device      :               "cuda"
+EXP         :             "exp_name"
 RDIR        :           "../out/"
 EXE         :           "main_cmf.py"
 PROG        :           "../src/"
