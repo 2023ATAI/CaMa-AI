@@ -1,6 +1,6 @@
 base_dir    :           "../"
 device : "cuda"
-EXP : "era5land_us05min_gpu/"
+EXP : "exp_name"
 RDIR        :           "../out/"
 EXE         :           "main_cmf.py"
 PROG        :           "../src/"
