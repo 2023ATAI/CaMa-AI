@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from joblib import Parallel, delayed
 from matplotlib import colors, cm
 from mpl_toolkits.basemap import Basemap
-
 from evluation_utils import KGESS, RMSE, BIAS, CORRELATION
 def process_simulations(config, OUTPUTFOLDER):
     SIMDIRs = config['SIMDIR']
