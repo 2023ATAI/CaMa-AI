@@ -391,7 +391,6 @@ class EvalApp(QWidget):
             self.sub_option_label.setText("Select Comparison:")
             self.sub_option_label.show()
 
-            # 只有 Discharge 才有 Residual
             if variable == "Discharge":
                 self.sub_option_combo.addItems(["Numerical Comparison", "Residual Comparison"])
             else:
